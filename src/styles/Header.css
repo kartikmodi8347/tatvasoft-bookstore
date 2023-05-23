@@ -1,0 +1,42 @@
+/*.header{
+    background-color: #e9f4f9;
+    width: 101%;
+    font-size: larger;
+    padding: 20px;
+    text-align: center;
+    color: #333333;
+   margin-top: 0px;
+    
+}
+img{
+    margin-left: 120px;
+    width: 180px;
+    
+   
+    
+}
+.button{
+    float: right;
+    padding: 20px;
+    font-size: larger;
+    
+}
+*/
+.header{
+    height: 92px;
+    
+    margin-top: 0px;
+    
+}
+img{
+    margin-left: 120px;
+    width: 180px;
+   
+    
+}
+.button{
+    float: right;
+    padding: 20px;
+    font-size: larger;
+    
+}

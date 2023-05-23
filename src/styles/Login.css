@@ -1,0 +1,14 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.login{
+    height: 68vh;
+    width: 103.70%;
+    background-color: #e9f4f9;
+    color: #333333;
+    font-size: larger;
+    text-align: center;
+    padding-top: 100px;
+   
+}

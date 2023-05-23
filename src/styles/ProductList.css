@@ -1,0 +1,9 @@
+.product-list{
+    height: 74vh;
+    width: 104%;
+    background-color: #e9f4f9;
+    color: #333333;
+    font-size: larger;
+    text-align: center;
+    padding-top: 100px;
+}
