@@ -3,7 +3,7 @@
     padding: 0;
 }
 .register {
-    height: 50vh;
+    height: 100vh;
     width: 103.75%;
     background-color: #e9f4f9;
     color: #333333;
@@ -13,7 +13,7 @@
 }
 
 .search {
-    height: 80px;
+    height: 70px;
     width: 103.75%;
     background: #e9f4f9;
     display: flex;
@@ -22,3 +22,57 @@
     gap:20px; 
 }
 
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin-left: 40px;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .Reg-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh; /* Adjust as needed */
+  }
+  div {
+    margin-bottom: 10px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  span {
+    color: red;
+  }
+  
+  #firstName,
+  #lastName,
+  #email {
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+    color: #414141;
+  }
+  
+  #email {
+    margin-top: 0;
+  }
+  
+  #password,
+  #confirmPassword {
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+    color: #414141;
+  }
+  
