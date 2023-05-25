@@ -1,7 +1,7 @@
 .product-list{
-    height: 74vh;
+    height: auto;
     width: 104%;
-    background-color: #e9f4f9;
+    background-color: white;
     color: #333333;
     font-size: larger;
     text-align: center;
