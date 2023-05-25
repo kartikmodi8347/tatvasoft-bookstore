@@ -1,78 +1,177 @@
 *{
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
+form {
+  height: 70px;
+  width: 300px;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  margin-left: 50px;
+  align-items: center;
+  gap:20px; 
+}
+
 .register {
-    height: 100vh;
-    width: 103.75%;
-    background-color: #e9f4f9;
-    color: #333333;
-    font-size: larger;
-    text-align: center;
-    padding-top: 100px;
+  height: 90vh;
+  width: 101%;
+  background-color: white;
+  color: #333333;
+  font-size: larger;
+  text-align: center;
+  padding-top: 100px;
+  padding: 0px 25px;
+}
+
+.txt{
+   font-size: 22px;
+    margin-bottom: 3px;
+    padding-bottom: 20px
 }
 
 .search {
-    height: 70px;
-    width: 103.75%;
-    background: #e9f4f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap:20px; 
+  height: 70px;
+  width: 103.75%;
+  background: #F4F4F4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:20px; 
+}
+
+.Reg-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #F4F4F4;
+  height: 70vh;
+  width: 70vh;
+  border: 10px solid #ccc; 
+  padding: 20px; /*  space between the border and form content */
+  border-radius: 4px; 
+  margin: auto;
+}
+
+.personal-information {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  
+}
+ .personal-information > div {
+  flex-basis: calc(40% - 5px); 
+}
+
+div.personal-information span {
+  color: rgb(255, 0, 0);
+  font-size: 0.875rem;
+}
+
+.role-information {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.role-information > div {
+  flex-basis: calc(40% - 4px); 
 }
 
 
-form {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    margin-left: 40px;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  .Reg-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60vh; /* Adjust as needed */
-  }
-  div {
-    margin-bottom: 10px;
-  }
+div.role-information label {
+  margin-right: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+div.role-information select {
+  padding: 8px;
+ 
+  border-radius: 4px;
+}
+
+div.role-information span {
+  color: rgb(255, 0, 0);
+  font-size: 0.875rem;
+}
+
+
+.leagel-information {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
   
-  label {
-    font-weight: bold;
-  }
+}
+.leagel-information > div {
+  flex-basis: calc(40% - 5px); 
+}
+
+div.leagel-information span {
+  color: rgb(255, 0, 0);
+  font-size: 0.875rem;
+}
+
+
+div {
+  margin-bottom: 10px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+span {
+  color: red;
+}
+
+#firstName,
+#lastName,
+#email 
+#role{
+  font-size: 15px;
+  font-family: 'Roboto', sans-serif;
   
-  input {
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  span {
-    color: red;
-  }
-  
-  #firstName,
-  #lastName,
-  #email {
-    font-size: 15px;
-    font-family: 'Roboto', sans-serif;
-    color: #414141;
-  }
-  
-  #email {
-    margin-top: 0;
-  }
-  
-  #password,
-  #confirmPassword {
-    font-size: 15px;
-    font-family: 'Roboto', sans-serif;
-    color: #414141;
-  }
-  
+}
+
+#email
+#role {
+  margin-top: 10px; 
+}
+
+#password,
+#confirmPassword {
+  font-size: 15px;
+  font-family: 'Roboto', sans-serif;
+  color: #414141;
+}
+
+button[type="submit"] {
+  background-color: #f14d54;
+  color: white;
+  padding: 10px 50px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+}
+
+button[type="submit"]:hover {
+  background-color: #c24e54;
+}
+
+button[type="submit"]:focus {
+  outline: none;
+}
+

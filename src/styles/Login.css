@@ -3,12 +3,11 @@
     padding: 0;
 }
 .login{
-    height: 68vh;
-    width: 103.70%;
-    background-color: #e9f4f9;
-    color: #333333;
+    height: auto;
+    width: 100%;
+    background-color: white;
+    color: darkblue;
     font-size: larger;
     text-align: center;
     padding-top: 100px;
-   
 }
