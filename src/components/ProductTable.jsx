@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { sumBy } from "lodash";
+import { AiOutlineShoppingCart } from 'react-icons/ai';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   root: {
@@ -98,7 +99,7 @@ export default function ProductTable() {
     const totalPrice = sumBy(products, (product) =>
       calculateTotalPrice(product.price, product.quantity)
     );
-    alert(`Total Price: ₹${totalPrice}`);
+    alert(`Your Total Amount is: ₹${totalPrice}`);
   };
   return (
     <div>
@@ -149,6 +150,7 @@ export default function ProductTable() {
       <Button
         variant="contained"
         color="secondary"
+        endIcon={<AiOutlineShoppingCart />}
         onClick={handleCartButtonClick}
       >
         Cart
