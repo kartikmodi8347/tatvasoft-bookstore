@@ -12,16 +12,13 @@
   gap:20px; 
 }
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #F4F4F4;
-  height: 90vh;
-  width: 70vh;
-  border: 10px solid #ccc; 
-  padding: 20px; /*  space between the border and form content */
-  border-radius: 4px; 
-  margin: auto;/* Adjust the height as needed */
+  max-width: 40rem;
+  margin: 0 auto;
+  margin-top: 35px;
+  padding: 2rem;
+  background-color: #f4f4f4;
+  border-radius: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);/* Adjust the height as needed */
 }
 
 .contact-form {
@@ -36,7 +33,7 @@
 
 .contact-form input[type="text"],
 .contact-form input[type="email"],
-.contact-form input[type="number"],
+.contact-form input[type="tel"],
 .contact-form input[type="password"],
 .contact-form select {
   width: 100%;

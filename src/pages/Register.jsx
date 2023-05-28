@@ -2,7 +2,7 @@ import React, { Component } from "react";
 //import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Navigate } from "react-router-dom";
+//import { Navigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { TextField, Button } from "@mui/material";
@@ -19,15 +19,51 @@ export default class SignUp extends Component {
       role: "",
       password: "",
       roleId: "",
+     
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const { firstName, lastName, email, password, roleId } = this.state;
+    const { firstName, lastName, email, password, roleId, phone } = this.state;
 
-    // console.log(firstName + " " + lastName + " " + email + " "  + password + " " + " " + roleId) ;
+    // Check if the phone number is a 10-digit integer
+    const phoneNumberPattern = /^\d{10}$/;
+    if (!phoneNumberPattern.test(phone)) {
+      toast.error("Invalid phone number!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
+  
+    // Check if the email and role already exist in the previous data
+    // const previousData = []; // Replace with your previous data
+    // const userExists = previousData.some(
+    //   (user) => user.email === email && user.roleId === roleId
+    // );
+  
+    // if (userExists) {
+    //   toast.error("User already exists!", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "colored",
+    //   });
+    //   return;
+    // }
+  
     fetch("https://book-e-sell-node-api.vercel.app/api/user", {
       method: "POST",
       crossDomain: true,
@@ -47,8 +83,8 @@ export default class SignUp extends Component {
       .then((res) => res.json())
       .then((data) => {
         console.log(data, "userRegister");
-        <Navigate to="/" replace={true} />;
-        toast.info("Registered Succesfully!", {
+        
+        toast.info("Registered Successfully!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -58,8 +94,11 @@ export default class SignUp extends Component {
           progress: undefined,
           theme: "colored",
         });
+
+        window.location.href = "/login";
       });
   }
+  
 
   render() {
     return (
@@ -125,14 +164,14 @@ export default class SignUp extends Component {
                 />
 
                 <input
-                  type="number"
+                  type="tel"
                   placeholder="Phone No"
                   name="phone"
                   required
                   autoComplete="off"
                   className="space"
-                  // value=""
-                  // onChange={(e) => this.setState({ phone: e.target.value })}
+                   value={this.state.phone}
+                  onChange={(e) => this.setState({ phone: e.target.value })}
                 />
               </div>
 
