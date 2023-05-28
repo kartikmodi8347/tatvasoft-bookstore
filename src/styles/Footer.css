@@ -5,11 +5,12 @@
     height: 70px;
     text-align: center;
     color: #F9F9F9;
+    margin-top: 100px;
    
    
 }
 
-img{
+.img{
     height: 70px;
     width: 180px;
 }

@@ -50,7 +50,7 @@ const Login = () => {
             name="email"
             required
             autoComplete="off"
-            // className="jagya"
+            // className="space"
             // value=""
             onChange={(e) => setState({ ...state, email: e.target.value })}
           />
@@ -64,7 +64,7 @@ const Login = () => {
             name="password"
             required
             autoComplete="off"
-            // className="jagya"
+            // className="space"
             // value=""
             onChange={(e) => setState({ ...state, password: e.target.value })}
           />
