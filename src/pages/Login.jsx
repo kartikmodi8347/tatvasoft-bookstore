@@ -1,31 +1,86 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+//import styled from "styled-components";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Button, TextField } from "@mui/material";
 import '../styles/Login.css'
+//import { Navigate } from "react-router-dom";
 
-function Login() {
+const Login = () => {
+  const [state, setState] = useState({ email: "", password: "" });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("https://book-e-sell-node-api.vercel.app/api/user/login", state)
+      .then((res) => {
+        console.log(res);
+        // window.localStorage.setItem("token", res.data);
+        window.localStorage.setItem("loggedIn", true);
+
+        toast.info("Logged in Succesfully!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+
+        window.location.href="/productlist";
+      })
+      .catch((err) => console.log(err));
+  };
   return (
-    <>
-      <h1><Header /></h1>
-      
-        <div className="login"><h1>Login Component</h1>
-      <br />
-      <br />
-      <br />
-      <TextField id="outlined-basic" label="User Name" variant="outlined" /> 
-      <TextField id="filled-basic" label="Password" variant="filled" /> <br /><br />
+    
+    <div className="login">
+       <Header />
+      <div className="contact-formlog">
+        <form
+          onSubmit={handleSubmit}
+         
+          className="contact-inputs"
+        >
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            required
+            autoComplete="off"
+            // className="jagya"
+            // value=""
+            onChange={(e) => setState({ ...state, email: e.target.value })}
+          />
 
-      <Link to="/product-list"><Button variant="contained">Login</Button> <br /> <br /></Link>
+          <br />
+          <br />
 
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            required
+            autoComplete="off"
+            // className="jagya"
+            // value=""
+            onChange={(e) => setState({ ...state, password: e.target.value })}
+          />
+          
 
-      
-      <Link className='link' to='/register'> <Button variant="contained">Register</Button> <br /> <br /> </Link>
+          <div >
+            <input type="submit" value="LogIn" />
+          </div>
+        </form>
       </div>
-      <h1><Footer /></h1>
-    </>
+      <ToastContainer />
+      <Footer />
+    </div>
   );
-}
+};
+
+
 
 export default Login;
