@@ -11,11 +11,17 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-        <Route path="/" Component={Register} />
+          <Route path="/" Component={Register} />
           <Route path="/login" Component={Login} />
           <Route path="/register" Component={Register} />
-          <Route path="/productlist" Component={isLoggedIn === "true" ? ProductList  : Login } />
-          <Route path="/cartitem" Component={CartItem} />
+          <Route
+            path="/productlist"
+            Component={isLoggedIn === "true" ? ProductList : Login}
+          />
+          <Route
+            path="/cartitem"
+            Component={isLoggedIn === "true" ? CartItem : Login}
+          />
         </Routes>
       </BrowserRouter>
     </>
