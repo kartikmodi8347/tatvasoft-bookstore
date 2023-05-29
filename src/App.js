@@ -6,7 +6,7 @@ import ProductList from "./pages/ProductList";
 import CartItem from "./pages/CartItem";
 
 function App() {
-  const isLoggedIn = window.localStorage.getItem("loggedIn");
+  // const isLoggedIn = window.localStorage.getItem("loggedIn");
   return (
     <>
       <BrowserRouter>
@@ -16,11 +16,11 @@ function App() {
           <Route path="/register" Component={Register} />
           <Route
             path="/productlist"
-            Component={isLoggedIn === "true" ? ProductList : Login}
+            Component={window.localStorage.getItem("loggedIn",true) ? ProductList : Login}
           />
           <Route
             path="/cartitem"
-            Component={isLoggedIn === "true" ? CartItem : Login}
+            Component={window.localStorage.getItem("loggedIn",true) ? CartItem : Login}
           />
         </Routes>
       </BrowserRouter>

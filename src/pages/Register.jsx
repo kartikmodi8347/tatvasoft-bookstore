@@ -5,8 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 //import { Navigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { TextField, Button } from "@mui/material";
-import { AiOutlineSearch } from "react-icons/ai";
+//import { TextField, Button } from "@mui/material";
+//import { AiOutlineSearch } from "react-icons/ai";
 import "../styles/Register.css";
 
 export default class SignUp extends Component {
@@ -28,6 +28,22 @@ export default class SignUp extends Component {
     e.preventDefault();
     const { firstName, lastName, email, password, roleId, phone } = this.state;
 
+    // Email validation pattern
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      toast.error("Invalid email address!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
+
     // Check if the phone number is a 10-digit integer
     const phoneNumberPattern = /^\d{10}$/;
     if (!phoneNumberPattern.test(phone)) {
@@ -43,6 +59,8 @@ export default class SignUp extends Component {
       });
       return;
     }
+
+    
   
     // Check if the email and role already exist in the previous data
     // const previousData = []; // Replace with your previous data
@@ -104,19 +122,7 @@ export default class SignUp extends Component {
     return (
       <div>
         <Header />
-        <div className="search">
-          <TextField label="What are you looking for.." size="small" />
-          <Button
-            variant="contained"
-            color="success"
-            endIcon={<AiOutlineSearch />}
-          >
-            Search
-          </Button>
-          <Button variant="contained" color="error">
-            Cancel
-          </Button>
-        </div>
+        
         <h2 className="account-title">Home : Create an Account for expirience</h2>
         <div className="container">
           <div className="contact-form">
@@ -159,7 +165,7 @@ export default class SignUp extends Component {
                   required
                   autoComplete="off"
                   className="space"
-                  // value=""
+                  value={this.state.email}
                   onChange={(e) => this.setState({ email: e.target.value })}
                 />
 

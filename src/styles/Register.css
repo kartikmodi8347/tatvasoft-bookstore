@@ -14,7 +14,7 @@
 .container {
   max-width: 40rem;
   margin: 0 auto;
-  margin-top: 35px;
+  margin-top: 80px;
   padding: 2rem;
   background-color: #f4f4f4;
   border-radius: 1rem;
@@ -82,4 +82,86 @@
   /* Add any other styles you want */
 }
 
-
+/* for responsive purpose */
+@media only screen and (max-width: 767px){
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 40rem;
+    margin: 0 auto;
+    margin-top: 100px;
+    padding: 2rem;
+    background-color: #f4f4f4;
+    border-radius: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);/* Adjust the height as needed */
+  }
+  
+  .contact-form {
+    gap:20px;
+    max-width: 50rem; 
+    max-height: 50rem;
+    
+  }
+  .intro-data common-heading{
+    font-size: 22px;
+     margin-bottom: 3px;
+     padding-bottom: 20px
+  }
+  
+  .contact-form input[type="text"],
+  .contact-form input[type="email"],
+  .contact-form input[type="tel"],
+  .contact-form input[type="password"],
+  .contact-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  /* ^Add any additional styles for the input boxes */
+  
+  .contact-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .contact-form input[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .contact-form input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  /* ^Add any additional styles for the role select box and signup button */
+  
+  .account-title {
+    color: #ff0000;
+    font-size: 15px;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5rem;
+    margin-left: 2rem;
+    /* Add any other styles you want */
+  }
+  }
+  

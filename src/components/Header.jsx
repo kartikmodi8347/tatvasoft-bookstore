@@ -1,9 +1,10 @@
 import React from "react";
 import "../styles/Header.css";
 //import logo from '../assets/images/logo.jpg'
-import { Button } from "@mui/material";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+//import { Button } from "@mui/material";
+import { AiOutlineShoppingCart, AiOutlineSearch } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { TextField, Button } from "@mui/material";
 
 function Header() {
   return (
@@ -36,10 +37,24 @@ function Header() {
             <Button variant="text">Register</Button>
           </Link>
         )}
-
-        <Button variant="contained" endIcon={<AiOutlineShoppingCart />}>
-          cart
+        {window.localStorage.getItem("loggedIn", true) ? (
+          <Link to="/cartitem">
+            <Button variant="contained" endIcon={<AiOutlineShoppingCart />}>
+              Cart
+            </Button>
+          </Link>
+        ) : null}
+      </div>
+      <div className="search">
+        <TextField label="What are you looking for.." size="small" />
+        <Button
+          variant="contained"
+          color="success"
+          endIcon={<AiOutlineSearch />}
+        >
+          Search
         </Button>
+       
       </div>
     </div>
   );

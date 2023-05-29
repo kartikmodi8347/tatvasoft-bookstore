@@ -1,25 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+//import styled from "styled-components";
+import axios from "axios";
+import Product from "../components/Product";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Link } from "react-router-dom";
-import '../styles/ProductList.css';
-import { Button } from "@mui/material";
-import { AiOutlineShoppingCart } from 'react-icons/ai';
-import ProductTable from "../components/ProductTable";
+import '../styles/Login.css'
+// import Product from "./components/Product";
 
-function ProductList(){
-    return(
-        <>
-        <Header/>
-        <div className="product-list"><h1>Product List Component</h1><br />
-        <Link to="/cart-item"><Button variant="contained" endIcon={<AiOutlineShoppingCart />}>cart</Button></Link>
-        <br/><br />
-        <ProductTable />
+
+const Products = () => {
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://book-e-sell-node-api.vercel.app/api/book/all")
+      .then((res) => {
+        setBooks(res.data.result);
+      });
+  }, []);
+  return (
+    <>
+    <Header/>
+    <div className="product">
+
+    <div className="containerprod">
+      {/* <div className="grid grid-three-column"> */}
+      {books && books.length > 0 && (
+        <div className="grid grid-three-column">
+          {books.map((book) => (
+            <Product
+              base64image={book.base64image}
+              name={book.name}
+              category={book.category}
+              description={book.description}
+              price={book.price}
+            />
+          ))}
         </div>
-        
-        <Footer/>
-        </>
-    );
-}
+      )}
+      {/* </div> */}
+    </div>
+   
+    </div>
+    <Footer/>
+    </>
+  );
+};
 
-export default ProductList;
+
+export default Products;

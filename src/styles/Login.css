@@ -1,51 +1,59 @@
 /* Login.css */
 
-
+.search {
+  height: 70px;
+  width: 103.75%;
+  background: #F4F4F4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:20px; 
+}
 .contact-formlog {
-    max-width: 40rem;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: #f4f4f4;
-    border-radius: 1rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .contact-formlog form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .contact-formlog input[type="email"],
-  .contact-formlog input[type="password"] {
-    width: 100%;
-    padding: 1rem;
-    margin-bottom: 3px;
-    font-size: 22px;
-    border: 0.1rem solid #ddd;
-    border-radius: 0.5rem;
-    padding-bottom: 20px
-  }
-  
-  .contact-formlog input[type="submit"] {
-    width: 100%;
-    padding: 0.75rem;
-    margin-top: 30px;
-    font-size: 1.8rem;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-  }
-  
-  .contact-formlog input[type="submit"]:hover {
-    background-color: #45a049;
-  }
-  
-  .contact-formlog input[type="submit"]:focus {
-    outline: none;
-  }
-  
-  
+  max-width: 40rem;
+  margin: 0 auto;
+  margin-top: 10rem;
+  padding: 2rem;
+  background-color: #f4f4f4;
+  border-radius: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contact-formlog form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-formlog input[type="email"],
+.contact-formlog input[type="password"] {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 3px;
+  font-size: 22px;
+  border: 0.1rem solid #ddd;
+  border-radius: 0.5rem;
+  padding-bottom: 20px
+}
+
+.contact-formlog input[type="submit"] {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 30px;
+  font-size: 1.8rem;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.contact-formlog input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.contact-formlog input[type="submit"]:focus {
+  outline: none;
+}
+
