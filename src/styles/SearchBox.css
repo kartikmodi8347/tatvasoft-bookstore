@@ -1,0 +1,40 @@
+.search-input {
+    width: 300px;
+    height: 40px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+ 
+ .result-list {
+    margin-top: 20px;
+  }
+  
+  .result-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffff;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .result-box > div {
+    margin-right: 10px;
+  }
+  
+  .add-to-cart-button {
+    background-color: #71da71;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .add-to-cart-button:hover {
+    background-color: #5ecb5e;
+  }
+  
+  

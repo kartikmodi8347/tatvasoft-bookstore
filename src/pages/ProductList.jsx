@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-//import styled from "styled-components";
 import axios from "axios";
 import Product from "../components/Product";
 import Header from "../components/Header";
@@ -24,7 +23,7 @@ const Products = () => {
     <div className="product">
 
     <div className="containerprod">
-      {/* <div className="grid grid-three-column"> */}
+       {/* <div className="grid grid-three-column">  */}
       {books && books.length > 0 && (
         <div className="grid grid-three-column">
           {books.map((book) => (
@@ -38,10 +37,10 @@ const Products = () => {
           ))}
         </div>
       )}
-      {/* </div> */}
+      </div>
     </div>
    
-    </div>
+    {/* </div> */}
     <Footer/>
     </>
   );

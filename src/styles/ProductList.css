@@ -1,93 +1,112 @@
+/* CSS of productlist */
 .containerprod {
-    display: grid;
-    grid-template-rows: repeat(1fr, 4);
-    gap: 20px;
-     /* box-shadow: 20px 50px 80px rgba(0, 0, 0, 0.1);  */
-    border-radius: 1rem;
-    width: 70%;
-    max-width: auto;
-    margin: 0 auto;
-    margin-top: 100px;
-    margin-bottom: 100px; 
+  display: grid;
+  grid-template-rows: repeat(1fr, 4);
+  border-radius: 1rem;
+  width: 70%;
+  max-width: auto;
+  margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three columns with equal width */
+  gap: 20px; /* Adjust the gap as desired */
+}
+
+.grid-three-column .product {
+  width: 20%; /* Ensure each product takes up the full width of its grid cell */
+}
+/* CSS of product */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  background-color: #f4f4f4;
+}
+
+.card figure {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.card figure img {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  margin: 0;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4rem;
+}
+
+.card-data {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.card-data h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.card-data--price {
+  font-size: 16px;
+  color: #888;
+}
+
+.card-data p {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.btn-clear {
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #ff0000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.btn-clear:hover {
+  background-color: #0056b3;
+}
+
+.btn-c {
+  text-decoration: none;
+  color: #007bff;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .containerprod {
+    width: 90%;
+    margin-top: 50px;
+    margin-bottom: 50px;
   }
-  
+
+  .grid {
+    grid-template-columns: 1fr; /* Display a single column on phone screens */
+  }
+
   .card {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between; 
-    width: 100%;
-    padding: 20px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 4rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    background-color: #f4f4f4;
+    margin-bottom: 20px; /* Add margin-bottom to create a gap between products on phone screens */
   }
-  
-  .card figure {
-    display: flex;
-    justify-content: flex-start;
-  }
-  
+
   .card figure img {
-    width: 250px; 
-    height: 250px; 
-    object-fit: cover;
-    margin: 0;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 4rem;
+    width: 100%; /* Adjust the image width to fill the container */
+    height: auto; /* Allow the image to maintain its aspect ratio */
   }
-  
-  .card .caption {
-    font-size: 20px;
-    color: #888;
-    margin-top: 10px;
-  }
-  
-  .card-data {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-  }
-  
-  .card-data h3 {
-    margin: 0;
-    font-size: 18px;
-  }
-  
-  .card-data--price {
-    font-size: 16px;
-    color: #888;
-  }
-  
-  .card-data p {
-    margin: 10px 0;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  .btn-clear {
-    padding: 10px 20px;
-    font-size: 14px;
-    color: #fff;
-    background-color: #ff0000;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-left: auto; /* Align the button to the left side */
-  }
-  
-  .btn-clear:hover {
-    background-color: #0056b3;
-  }
-  
-  .btn-c {
-    margin-top: 10px;
-    text-decoration: none;
-    color: #007bff;
-  }
-  
+}

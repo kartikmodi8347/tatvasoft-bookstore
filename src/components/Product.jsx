@@ -1,14 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "../styles/Register.css";
-// import { Button } from "../styles/Button";
-//import styled from "styled-components";
-
 
 const Product = (book) => {
-  //  { id, name, base64image, price , category} = curElem;
   return (
-    // <NavLink to={`/singleproduct/${_id}`}>
     <div>
       <div className="card">
         <figure>
@@ -27,11 +22,8 @@ const Product = (book) => {
           <button className="btn-clear btn-c"> Add to cart</button>
         </NavLink>
       </div>
-      {/* //  </NavLink> */}
     </div>
   );
 };
-
-
 
 export default Product;
