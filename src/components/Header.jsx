@@ -62,7 +62,7 @@ function Header() {
           </Link>
         )}
       </div>
-      <div className="search">
+      <div className="search" >
         <SearchBox />
       </div>
     </div>

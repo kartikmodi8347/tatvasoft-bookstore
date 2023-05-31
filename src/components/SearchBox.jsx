@@ -4,6 +4,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../styles/SearchBox.css";
 
 const SearchBox = () => {
@@ -19,7 +21,7 @@ const SearchBox = () => {
       setResults(response.data.result);
       setOpenSearchResult(true);
     } catch (error) {
-      console.log(error);
+      toast.error("Error occurred while fetching results.");
     }
   };
 
@@ -40,12 +42,12 @@ const SearchBox = () => {
   return (
     <div>
       <div
-        className="form"
-        style={{ position: "fixed", top: "90px", left: "500px" }}
+         className="form"
+         style={{ position: "absolute" , top: "90px", left: "500px" }}
       >
         <form
           onSubmit={handleSubmit}
-          style={{ display: "flex", alignItems: "center" }}
+          style={{  display: "flex", alignItems: "center" }}
         >
           <TextField
             label="What are you looking for.."
@@ -74,24 +76,26 @@ const SearchBox = () => {
 
         {openSearchResult && (
           <div className="result-list">
-            {results?.length > 0 &&
-              results.map((result, id) => {
-                return (
-                  <div className="result-box" key={id}>
-                    <div>{result.name}</div>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <Link to="/productlist">
-                        <button type="submit" className="add-to-cart-button">
-                          Add to cart
-                        </button>
-                      </Link>
-                    </div>
+            {results?.length > 0 ? (
+              results.map((result, id) => (
+                <div className="result-box" key={id}>
+                  <div>{result.name}</div>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <Link to="/productlist">
+                      <button type="submit" className="add-to-cart-button">
+                        Add to cart
+                      </button>
+                    </Link>
                   </div>
-                );
-              })}
+                </div>
+              ))
+            ) : (
+              <div className="no-results">No results found.</div>
+            )}
           </div>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };
