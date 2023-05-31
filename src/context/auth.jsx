@@ -86,3 +86,4 @@ export const AuthWrapper = ({ children }) => {
 export const useAuthContext = () => {
   return useContext(AuthContext);
 };
+

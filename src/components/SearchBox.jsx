@@ -90,7 +90,7 @@ const SearchBox = () => {
                 </div>
               ))
             ) : (
-              <div className="no-results">No results found.</div>
+              <div className="no-results"><h3>Books Not Available.</h3></div>
             )}
           </div>
         )}

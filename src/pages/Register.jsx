@@ -114,7 +114,8 @@ export default class SignUp extends Component {
         });
 
         window.location.href = "/login";
-      });
+      })
+      
   }
   
 
@@ -123,14 +124,16 @@ export default class SignUp extends Component {
       <div>
         <Header />
         
-        <h2 className="account-title">Home : Create an Account for expirience</h2>
+        
         <div className="container">
+        <h2 className="account-title">Home : Create an Account for  An Experience</h2>
           <div className="contact-form">
             <form
               onSubmit={this.handleSubmit}
               method="POST"
               className="contact-inputs"
             >
+             
               <h3>Personal Information</h3>
               <br />
               <hr />

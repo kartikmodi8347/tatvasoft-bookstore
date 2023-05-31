@@ -16,7 +16,7 @@ const Login = () => {
       .post("https://book-e-sell-node-api.vercel.app/api/user/login", state)
       .then((res) => {
         console.log(res);
-        // window.localStorage.setItem("token", res.data);
+        window.localStorage.setItem("token", res.data);
         window.localStorage.setItem("loggedIn", true);
 
         toast.info("Logged in Succesfully!", {
@@ -32,13 +32,28 @@ const Login = () => {
 
         window.location.href="/productlist";
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        toast.error("Loggin Denied", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
+      
   };
   return (
     
     <div className="login">
        <Header />
+       
       <div className="contact-formlog">
+      <h2 className="login-title"> Login an Account</h2>
         <form
           onSubmit={handleSubmit}
          

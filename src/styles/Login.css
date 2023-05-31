@@ -9,6 +9,26 @@
   align-items: center;
   gap:20px; 
 }
+.login-title {
+  font-family: "Roboto",Helvetica,Arial,sans-serif;  
+  font-size: 32px;
+  font-weight: bold; 
+  color: #414141; /* Specify the desired text color */
+  text-align: center; /* Center align the text */
+  position: relative;
+  margin-bottom: 2rem;
+}
+.login-title::after {
+  content: ""; /* Create a pseudo-element for the underline */
+  position: absolute; /* Position the underline absolutely */
+  bottom: -5px; /* Adjust the distance from the text */
+  left: 50%; /* Position the underline in the center */
+  transform: translateX(-50%); /* Center the underline horizontally */
+  width: 50%; /* Adjust the width of the underline */
+  height: 2px; /* Adjust the thickness of the underline */
+  background-color: #f14d54; /* Set the color of the underline */
+ 
+}
 .contact-formlog {
   max-width: 40rem;
   margin: 0 auto;

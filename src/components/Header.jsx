@@ -31,9 +31,9 @@ function Header() {
           </Link>
         ) : null}
         {window.localStorage.getItem("loggedIn", true) ? (
-          <Link to="/productlist">
+          <Link to="/editbook">
             <Button variant="contained" endIcon={<RiMenuLine />}>
-              Category
+              Book
             </Button>
           </Link>
         ) : null}
