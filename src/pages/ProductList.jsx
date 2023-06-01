@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Product from "../components/Product";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import '../styles/Login.css'
+import "../styles/Login.css";
 
 const Products = () => {
   const [books, setBooks] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const booksPerPage = 6;
 
   useEffect(() => {
     axios
@@ -19,8 +19,6 @@ const Products = () => {
   }, []);
 
   const handleSearch = () => {
-    // Perform the search based on the searchQuery
-    // Ex: filter the books array based on the book name or any other criteria
     const filteredBooks = books.filter((book) =>
       book.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -28,7 +26,6 @@ const Products = () => {
   };
 
   const handleSort = (filteredBooks) => {
-    // Sort the filteredBooks based on the sortOrder
     if (sortOrder === "A-Z") {
       filteredBooks.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortOrder === "Z-A") {
@@ -39,57 +36,75 @@ const Products = () => {
 
   const filteredBooks = handleSearch();
   const sortedBooks = handleSort(filteredBooks);
-  const totalBooks = books.length; // Total number of books
+  const totalBooks = sortedBooks.length;
+
+  // Calculate pagination
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = sortedBooks.slice(indexOfFirstBook, indexOfLastBook);
+  const totalPages = Math.ceil(sortedBooks.length / booksPerPage);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <>
-      <Header />
       <div className="product">
         <div className="containerprod">
           <h1>Books</h1>
           <div className="search-sort-row">
-          <div className="total-books">
-              Total Books: {totalBooks}
+            <div className="total-books">Total Books: {totalBooks}</div>
+            <div className="search-box">
+              <input
+                type="text"
+                placeholder="Search books..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
-          <div className="search-box">
-            <input
-              type="text"
-              placeholder="Search books..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <div className="sort-box">
-            <select
-              value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value)}
-            >
-              <option value="">Sort By</option>
-              <option value="A-Z">A-Z</option>
-              <option value="Z-A">Z-A</option>
-            </select>
-          </div>
-          
-          </div>
-          {sortedBooks.length > 0 ? (
-            <div className="grid grid-three-column">
-              {sortedBooks.map((book) => (
-                <Product
-                  key={book.id}
-                  base64image={book.base64image}
-                  name={book.name}
-                  category={book.category}
-                  description={book.description}
-                  price={book.price}
-                />
-              ))}
+            <div className="sort-box">
+              <select
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
+              >
+                <option value="">Sort By</option>
+                <option value="A-Z">A-Z</option>
+                <option value="Z-A">Z-A</option>
+              </select>
             </div>
+          </div>
+          {currentBooks.length > 0 ? (
+            <>
+              <div className="grid grid-three-column">
+                {currentBooks.map((book) => (
+                  <Product
+                    key={book.id}
+                    base64image={book.base64image}
+                    name={book.name}
+                    category={book.category}
+                    description={book.description}
+                    price={book.price}
+                  />
+                ))}
+              </div>
+              <div className="pagination">
+                {Array.from({ length: totalPages }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => paginate(index + 1)}
+                    className={currentPage === index + 1 ? "active" : ""}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
+            </>
           ) : (
             <p>No books found.</p>
           )}
         </div>
       </div>
-      <Footer />
     </>
   );
 };

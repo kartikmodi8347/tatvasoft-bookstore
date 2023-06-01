@@ -43,7 +43,7 @@ export const AuthWrapper = ({ children }) => {
       intialUserValue;
     // if the item doesn't exist, return null
     if (!itemStr.id) {
-      navigate("/");
+      navigate("/productlist");
     }
     _setUser(itemStr);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,4 +86,3 @@ export const AuthWrapper = ({ children }) => {
 export const useAuthContext = () => {
   return useContext(AuthContext);
 };
-

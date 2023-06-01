@@ -3,21 +3,22 @@ import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import '../styles/Login.css'
+import { useAuthContext } from "../context/auth";
 //import { Navigate } from "react-router-dom";
 
 const Login = () => {
   const [state, setState] = useState({ email: "", password: "" });
+  const authContext = useAuthContext();
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
       .post("https://book-e-sell-node-api.vercel.app/api/user/login", state)
       .then((res) => {
         console.log(res);
-        window.localStorage.setItem("token", res.data);
+        // window.localStorage.setItem("token", res.data.result);
         window.localStorage.setItem("loggedIn", true);
+        
 
         toast.info("Logged in Succesfully!", {
           position: "top-right",
@@ -29,6 +30,7 @@ const Login = () => {
           progress: undefined,
           theme: "colored",
         });
+        authContext.setUser(res);
 
         window.location.href="/productlist";
       })
@@ -50,7 +52,6 @@ const Login = () => {
   return (
     
     <div className="login">
-       <Header />
        
       <div className="contact-formlog">
       <h2 className="login-title"> Login an Account</h2>
@@ -91,7 +92,6 @@ const Login = () => {
         </form>
       </div>
       <ToastContainer />
-      <Footer />
     </div>
   );
 };

@@ -1,6 +1,4 @@
 import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 //import { Link } from "react-router-dom";
 import '../styles/ProductList.css';
 //import { Button } from "@mui/material";
@@ -9,13 +7,13 @@ import '../styles/ProductList.css';
 function CartItem() {
     return(
         <>
-        <Header/>
+        
         <div className="product-list"><h1>Cart Item Component</h1><br />
         
         
         </div>
         
-        <Footer/>
+        
         </>
     );
 }

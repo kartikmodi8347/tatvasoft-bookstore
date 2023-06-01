@@ -3,8 +3,6 @@ import React, { Component } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 //import { Navigate } from "react-router-dom";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 //import { TextField, Button } from "@mui/material";
 //import { AiOutlineSearch } from "react-icons/ai";
 import "../styles/Register.css";
@@ -122,7 +120,7 @@ export default class SignUp extends Component {
   render() {
     return (
       <div>
-        <Header />
+       
         
         
         <div className="container">
@@ -247,7 +245,7 @@ export default class SignUp extends Component {
           </div>
         </div>
         <ToastContainer />
-        <Footer />
+      
       </div>
     );
   }

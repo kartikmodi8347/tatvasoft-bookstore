@@ -43,7 +43,7 @@ const SearchBox = () => {
     <div>
       <div
          className="form"
-         style={{ position: "absolute" , top: "90px", left: "500px" }}
+         style={{ position: "absolute" , top: "90px", left: "550px" }}
       >
         <form
           onSubmit={handleSubmit}
