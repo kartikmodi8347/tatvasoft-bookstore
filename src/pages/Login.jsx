@@ -1,101 +1,174 @@
-import React, { useState } from "react";
-//import styled from "styled-components";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import '../styles/Login.css'
+import {
+  Breadcrumbs,
+  Divider,
+  FormControl,
+  Typography,
+} from "@mui/material";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import { TextField } from "@mui/material";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+
+import { Formik } from "formik";
+import * as Yup from "yup";
+import authService from "../service/auth.service";
+import { toast, ToastContainer } from "react-toastify";
 import { useAuthContext } from "../context/auth";
-//import { Navigate } from "react-router-dom";
 
-const Login = () => {
-  const [state, setState] = useState({ email: "", password: "" });
+function Login() {
+  const navigate = useNavigate();
   const authContext = useAuthContext();
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    axios
-      .post("https://book-e-sell-node-api.vercel.app/api/user/login", state)
+
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+  const validate = Yup.object().shape({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string()
+      .min(5, "Password must be at least 5 characters")
+      .required("Password is required"),
+  });
+
+  const onSubmit = (values) => {
+    authService
+      .login(values)
       .then((res) => {
-        console.log(res);
-        // window.localStorage.setItem("token", res.data.result);
-        window.localStorage.setItem("loggedIn", true);
-        
-
-        toast.info("Logged in Succesfully!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        delete res._id;
+        delete res.__v;
         authContext.setUser(res);
-
-        window.location.href="/productlist";
+        navigate("/");
+        toast.success("Successfully logged in");
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Loggin Denied", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
       });
-      
   };
+
+  const breadcrumbs = [
+    <Link to={"/"} underline="hover" key="1" color="inherit" href="/">
+      Home
+    </Link>,
+    <Typography key="2" color="error">
+      Login
+    </Typography>,
+  ];
+
   return (
-    
-    <div className="login">
-       
-      <div className="contact-formlog">
-      <h2 className="login-title"> Login an Account</h2>
-        <form
-          onSubmit={handleSubmit}
-         
-          className="contact-inputs"
-        >
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            required
-            autoComplete="off"
-            // className="space"
-            // value=""
-            onChange={(e) => setState({ ...state, email: e.target.value })}
-          />
-
-          <br />
-          <br />
-
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            required
-            autoComplete="off"
-            // className="space"
-            // value=""
-            onChange={(e) => setState({ ...state, password: e.target.value })}
-          />
-          
-
-          <div >
-            <input type="submit" value="LogIn" />
-          </div>
-        </form>
-      </div>
+    <div className="">
       <ToastContainer />
+
+      <Breadcrumbs
+        separator={<NavigateNextIcon fontSize="small" />}
+        aria-label="breadcrumb"
+        className="flex justify-center mt-5"
+      >
+        {breadcrumbs}
+      </Breadcrumbs>
+
+      <Typography variant="h4" className="flex justify-center mt-5">
+        Login or Create an Account
+      </Typography>
+
+      <div className="flex items-center justify-center mt-6">
+        <div className="border-t-2 border-[#f14d54] w-32"></div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-36 mt-12">
+        <div className="ml-40">
+          <Typography variant="h6">New Customer</Typography>
+          <Divider className="mt-5" />
+          <Typography variant="body2" className="mt-5">
+            Registration is free and easy.
+          </Typography>
+
+          <ul className="list-disc mt-5 ml-5">
+            <li>Faster Checkout</li>
+            <li>Save Multiple shipping addresses</li>
+            <li>View and track orders and more</li>
+          </ul>
+
+          
+          <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4  rounded mt-12"
+                  type="submit"
+                  variant="contained"
+                  onClick={() => {
+                    navigate("/register");
+                  }}
+                >
+                 CREATE AN ACCOUNT
+                </button>
+        </div>
+
+        <div>
+          <Typography variant="h6">Registered Customers</Typography>
+          <Divider className="mt-5 mr-160" />
+          <Typography variant="body2" className="mt-5">
+            If you have an account with us, please log in.
+          </Typography>
+
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validate}
+            onSubmit={onSubmit}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+            }) => (
+              <form onSubmit={handleSubmit} className="">
+                <FormControl fullWidth className="mt-5">
+                  <label>Email Address*</label>
+                  <TextField
+                    size="small"
+                    type="email"
+                    name="email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    className="w-96"
+                  />
+                  <div className="text-red-600">
+                    {errors.email && touched.email && errors.email}
+                  </div>
+                </FormControl>
+
+                <FormControl fullWidth className="mt-5">
+                  <label>Password*</label>
+                  <TextField
+                    type="password"
+                    name="password"
+                    size="small"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    className="w-96"
+                  />
+                  <div className="text-red-600">
+                    {errors.password && touched.password && errors.password}
+                  </div>
+                </FormControl>
+
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                  type="submit"
+                  variant="contained"
+                >
+                  Click me!
+                </button>
+              </form>
+            )}
+          </Formik>
+        </div>
+      </div>
     </div>
   );
-};
-
-
+}
 
 export default Login;

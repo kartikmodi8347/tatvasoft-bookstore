@@ -1,17 +1,10 @@
 import React from "react";
-import "../styles/Footer.css";
-//import logo from "../assets/images/logo.jpg";
-
+import logo from "../assets/logo.jpg";
 function Footer() {
   return (
-    <>
-      <div className="footer">
-        <img
-          src="https://bookstore-sooty.vercel.app/static/media/site-logo.005b78aa01d0b4eadda3fa91c02202c5.svg"
-          alt=""
-        />
-      </div>
-    </>
+    <div className="flex  py-7 items-center justify-center mt-20">
+      <img src={logo} alt="TatvaSoft_Logo" className="h-24  w-44" />
+    </div>
   );
 }
 

@@ -1,88 +1,78 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import React from "react";
-// import Shared from "../utils/shared";
-// import { RoutePaths } from "../utils/enum";
-import { useNavigate} from "react-router-dom";
-// import { toast } from "react-toastify";
+import React, { useContext, useEffect, useState } from "react";
+import { createContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import shared from "../utils/shared";
 
 const intialUserValue = {
-  id: 0,
   email: "",
   firstName: "",
+  id: 0,
   lastName: "",
-  roleId: 0,
-  role: "",
   password: "",
+  role: "",
+  roleId: 0,
 };
 
 const initialState = {
   setUser: () => {},
   user: intialUserValue,
   signOut: () => {},
-  appInitialize: false,
 };
 
-export const AuthContext = createContext(initialState);
+const authContext = createContext(initialState);
 
-export const AuthWrapper = ({ children }) => {
-//   const [appInitialize, setAppInitialize] = useState(false);
+export const AuthWarpper = ({ children }) => {
   const [user, _setUser] = useState(intialUserValue);
-
   const navigate = useNavigate();
-//   const { pathname } = useLocation();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const str = JSON.parse(localStorage.getItem("user")) || intialUserValue;
+    if (str.id) {
+      _setUser(str);
+    }
+    if (!str.id) {
+      navigate("/login");
+    }
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (pathname === "/login" && user.id) {
+      navigate("/");
+    }
+    if (!user.id) {
+      return;
+    }
+    const access = shared.hasAccess(pathname, user);
+    if (!access) {
+      toast.warning("sorry, you are not authorized to access this page");
+      navigate("/");
+      return;
+    }
+    // eslint-disable-next-line
+  }, [user, pathname]);
 
   const setUser = (user) => {
-    console.log(user.email, user);
-    localStorage.setItem("Shared.LocalStorageKeys.USER", JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
     _setUser(user);
   };
 
-  useEffect(() => {
-    const itemStr =
-      JSON.parse(localStorage.getItem("Shared.LocalStorageKeys.USER")) ||
-      intialUserValue;
-    // if the item doesn't exist, return null
-    if (!itemStr.id) {
-      navigate("/productlist");
-    }
-    _setUser(itemStr);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const signOut = () => {
     setUser(intialUserValue);
-    localStorage.removeItem("Shared.LocalStorageKeys.USER");
-    navigate("/");
+    localStorage.removeItem("user");
+    navigate("/login");
   };
 
-//   useEffect(() => {
-//     if (pathname === "/login" && user.id) {
-//       navigate("/products");
-//     }
-
-    // if (!user.id) {
-    //   return;
-    // }
-    // const access = Shared.hasAccess(pathname, user);
-    // if (!access) {
-    //   toast.warning("Sorry, you are not authorized to access this page");
-    //   navigate(RoutePaths.BookListing);
-    //   return;
-    // }
-    // setAppInitialize(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [pathname, user]);
-
-  let value = {
+  const value = {
     user,
     setUser,
     signOut,
-    // appInitialize,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <authContext.Provider value={value}>{children}</authContext.Provider>;
 };
-
 export const useAuthContext = () => {
-  return useContext(AuthContext);
+  return useContext(authContext);
 };

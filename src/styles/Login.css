@@ -1,79 +1,119 @@
-/* Login.css */
-
-.search {
-  height: 70px;
-  width: 103.75%;
-  background: #F4F4F4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap:20px; 
-}
-.login-title {
-  font-family: "Roboto",Helvetica,Arial,sans-serif;  
-  font-size: 32px;
-  font-weight: bold; 
-  color: #414141; /* Specify the desired text color */
-  text-align: center; /* Center align the text */
-  position: relative;
-  margin-bottom: 2rem;
-}
-.login-title::after {
-  content: ""; /* Create a pseudo-element for the underline */
-  position: absolute; /* Position the underline absolutely */
-  bottom: -5px; /* Adjust the distance from the text */
-  left: 50%; /* Position the underline in the center */
-  transform: translateX(-50%); /* Center the underline horizontally */
-  width: 50%; /* Adjust the width of the underline */
-  height: 2px; /* Adjust the thickness of the underline */
-  background-color: #f14d54; /* Set the color of the underline */
- 
-}
-.contact-formlog {
-  max-width: 40rem;
-  margin: 0 auto;
-  margin-top: 10rem;
-  padding: 2rem;
-  background-color: #f4f4f4;
-  border-radius: 1rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.contact-formlog form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.contact-formlog input[type="email"],
-.contact-formlog input[type="password"] {
-  width: 100%;
-  padding: 1rem;
-  margin-bottom: 3px;
-  font-size: 22px;
-  border: 0.1rem solid #ddd;
-  border-radius: 0.5rem;
-  padding-bottom: 20px
-}
-
-.contact-formlog input[type="submit"] {
-  width: 100%;
-  padding: 0.75rem;
-  margin-top: 30px;
-  font-size: 1.8rem;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-}
-
-.contact-formlog input[type="submit"]:hover {
-  background-color: #45a049;
-}
-
-.contact-formlog input[type="submit"]:focus {
-  outline: none;
-}
-
+.flex-1 {
+    flex: 1;
+    background-color: #f4f4f4;
+    border-radius: 8rem;
+    height: auto;
+  }
+  .login-title {
+    font-family: "Roboto",Helvetica,Arial,sans-serif;  
+    font-size: 32px;
+    font-weight: bold; 
+    color: #414141; /* Specify the desired text color */
+    text-align: center; /* Center align the text */
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  .login-title::after {
+    content: ""; /* Create a pseudo-element for the underline */
+    position: absolute; /* Position the underline absolutely */
+    bottom: -5px; /* Adjust the distance from the text */
+    left: 50%; /* Position the underline in the center */
+    transform: translateX(-50%); /* Center the underline horizontally */
+    width: 50%; /* Adjust the width of the underline */
+    height: 2px; /* Adjust the thickness of the underline */
+    background-color: #f14d54; /* Set the color of the underline */
+   
+  }
+  
+  .mt-5 {
+    margin-top: 5px;
+  }
+  
+  .items-center {
+    align-items: center;
+  }
+  
+  .justify-center {
+    justify-content: center;
+  }
+  
+  .border-t-2 {
+    border-top-width: 2px;
+  }
+  
+  .border-{
+    border-color: #f14d54;
+  }
+  
+  .w-32 {
+    width: 8rem;
+  }
+  
+  .ml-40 {
+    margin-left: 10rem;
+  }
+  
+  .mt-3 {
+    margin-top: 0.75rem;
+  }
+  
+  .list-disc {
+    list-style-type: disc;
+    margin-top: 1.25rem;
+    margin-left: 1.25rem;
+  }
+  
+  .text-red-600 {
+    color: #f14d54;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .mt-6 {
+    margin-top: 1.5rem;
+  }
+  
+  .grid {
+    display: grid;
+  }
+  
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .gap-36 {
+    gap: 9rem;
+  }
+  
+  .mt-12 {
+    margin-top: 3rem;
+  }
+  
+  .m-6 {
+    margin: 1.5rem;
+  }
+  
+  .mr-160 {
+    margin-right: 40rem;
+  }
+  
+  .text-red-600 {
+    color: #f14d54;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .text-red-600 {
+    color: #f14d54;
+  }
+  
+  .text-red-600 {
+    color: #f14d54;
+  }
+  

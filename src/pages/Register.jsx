@@ -1,252 +1,318 @@
-import React, { Component } from "react";
-//import styled from "styled-components";
-import { ToastContainer, toast } from "react-toastify";
+import {
+  Breadcrumbs,
+  Divider,
+  FormControl,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import userService from "../service/user.service";
+import authService from "../service/auth.service";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-//import { Navigate } from "react-router-dom";
-//import { TextField, Button } from "@mui/material";
-//import { AiOutlineSearch } from "react-icons/ai";
-import "../styles/Register.css";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-export default class SignUp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: "",
-      lastName: "",
-      email: "",
-      role: "",
-      password: "",
-      roleId: "",
-     
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+function Register() {
+  const navigate = useNavigate();
+  const breadcrumbs = [
+    <Link to={"/"} underline="hover" key="1" color="inherit" href="/">
+      Home
+    </Link>,
 
-  handleSubmit(e) {
-    e.preventDefault();
-    const { firstName, lastName, email, password, roleId, phone } = this.state;
+    <Typography key="2" color={{ color: "#f14d54" }}>
+      Create an Account
+    </Typography>,
+  ];
+  const initialValues = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    roleId: "",
+    password: "",
+    confirmPassword: "",
+  };
+  const [showPassword, setShowPassword] = useState(false);
 
-    // Email validation pattern
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      toast.error("Invalid email address!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      return;
-    }
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  const validate = Yup.object().shape({
+    firstName: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("FirstName is Required"),
+    lastName: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("LastName is Required"),
+    email: Yup.string().email("Invalid email").required("Email is Required"),
+    password: Yup.string().required("Password must Required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Required"),
+    roleId: Yup.string().required("Role is required"),
+  });
 
-    // Check if the phone number is a 10-digit integer
-    const phoneNumberPattern = /^\d{10}$/;
-    if (!phoneNumberPattern.test(phone)) {
-      toast.error("Invalid phone number!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      return;
-    }
+  const onSubmit = (values) => {
+    delete values.confirmPassword;
+    // alert(JSON.stringify(values));
+    authService
+      .create(values)
+      .then((res) => {
+        setTimeout(() => {
+          toast.success("Succesfully Registered");
+        }, 2000);
 
-    
-  
-    // Check if the email and role already exist in the previous data
-    // const previousData = []; // Replace with your previous data
-    // const userExists = previousData.some(
-    //   (user) => user.email === email && user.roleId === roleId
-    // );
-  
-    // if (userExists) {
-    //   toast.error("User already exists!", {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "colored",
-    //   });
-    //   return;
-    // }
-  
-    fetch("https://book-e-sell-node-api.vercel.app/api/user", {
-      method: "POST",
-      crossDomain: true,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        password,
-        roleId,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data, "userRegister");
-        
-        toast.info("Registered Successfully!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-
-        window.location.href = "/login";
+        navigate("/login");
       })
-      
-  }
-  
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const [roleList, setRoleList] = useState([]);
 
-  render() {
-    return (
-      <div>
-       
-        
-        
-        <div className="container">
-        <h2 className="account-title">Home : Create an Account for  An Experience</h2>
-          <div className="contact-form">
-            <form
-              onSubmit={this.handleSubmit}
-              method="POST"
-              className="contact-inputs"
-            >
-             
-              <h3>Personal Information</h3>
-              <br />
-              <hr />
-              <br />
-              <div className="grid-two-column">
-                <input
-                  type="text"
-                  placeholder="First Name"
-                  name="firstName"
-                  required
-                  autoComplete="off"
-                  className="space"
-                  // value=""
-                  onChange={(e) => this.setState({ firstName: e.target.value })}
-                />
-                <input
-                  type="text"
-                  placeholder="Last name"
-                  name="lastName"
-                  required
-                  autoComplete="off"
-                  className="space"
-                  // value=""
-                  onChange={(e) => this.setState({ lastName: e.target.value })}
-                />
-              </div>
-              <div className="grid-two-column">
-                <input
-                  type="email"
-                  placeholder="Email"
-                  name="email"
-                  required
-                  autoComplete="off"
-                  className="space"
-                  value={this.state.email}
-                  onChange={(e) => this.setState({ email: e.target.value })}
-                />
+  const getRoles = () => {
+    userService
+      .getAllRoles()
+      .then((res) => {
+        setRoleList(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-                <input
-                  type="tel"
-                  placeholder="Phone No"
-                  name="phone"
-                  required
-                  autoComplete="off"
-                  className="space"
-                   value={this.state.phone}
-                  onChange={(e) => this.setState({ phone: e.target.value })}
-                />
-              </div>
+  useEffect(() => {
+    getRoles();
+  }, []);
 
-              <br />
-              <h3>Login Information</h3>
-              <br />
-              <hr />
-              <br />
-              <div className="grid-two-column">
-                <input
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  required
-                  autoComplete="off"
-                  className="space"
-                  // value=""
-                  onChange={(e) => this.setState({ password: e.target.value })}
-                />
-                <input
-                  type="password"
-                  placeholder="Confirm Password"
-                  name="confirm-password"
-                  required
-                  autoComplete="off"
-                  className="space"
-                  // value=""
-                  // onChange={(e) => this.setState({ email: e.target.value })}
-                />
-              </div>
-
-              <br />
-              <h3>Role Information</h3>
-              <br />
-              <hr />
-              <br />
-              {/* <div className=""> */}
-              <select
-                name="roles"
-                id="role"
-                className="space sort-selection--style"
-                onChange={(e) => {
-                  // console.log(e.target.value);
-                  this.setState({ role: e.target.value });
-                  if (e.target.value === "buyer") {
-                    this.setState({ roleId: 2 });
-                  } else {
-                    this.setState({ roleId: 3 });
-                  }
-                }}
-              >
-                <option value="" selected disabled hidden>
-                  Choose Role
-                </option>
-                <option value="buyer">Buyer</option>
-                {/* <option value="" disabled></option> */}
-                <option value="seller">Seller</option>
-              </select>
-              {/* </div> */}
-              <div>
-                <input type="submit" value="SignUp" />
-              </div>
-            </form>
-          </div>
-        </div>
-        <ToastContainer />
-      
+  return (
+    <div>
+      <ToastContainer />
+      <Breadcrumbs
+        separator={<NavigateNextIcon fontSize="small" />}
+        aria-label="breadcrumb"
+        sx={{
+          display: "flex",
+          marginTop: "50px",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {breadcrumbs}
+      </Breadcrumbs>
+      <Typography
+        variant="h4"
+        sx={{
+          display: "flex",
+          marginTop: "50px",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        Login or Create an Account
+      </Typography>
+      <div className="flex items-center justify-center m-6">
+        <div className="border-t-2 border-[#f14d54] w-32"></div>
       </div>
-    );
-  }
+      <Typography variant="h6" sx={{ marginTop: "50px", marginLeft: "160px" }}>
+        Personal Information
+      </Typography>
+      <Divider
+        sx={{ marginTop: "20px", marginLeft: "160px", marginRight: "160px" }}
+      />
+      <Typography
+        variant="body2"
+        sx={{ marginTop: "20px", marginLeft: "160px" }}
+      >
+        Please enter the following information to create your account
+      </Typography>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validate}
+        onSubmit={onSubmit}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+        }) => (
+          <form onSubmit={handleSubmit} className="flex-1 ml-40 mr-40">
+            <div className="grid grid-cols-2 gap-5 mt-5 ">
+              <FormControl fullWidth>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  First Name*
+                </label>
+                <TextField
+                  size="small"
+                  type="text"
+                  name="firstName"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.firstName}
+                  sx={{ height: "40px" }}
+                />
+                <div className="text-red-600">
+                  {errors.firstName && touched.firstName && errors.firstName}
+                </div>
+              </FormControl>
+              <FormControl fullWidth>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Last Name*
+                </label>
+                <TextField
+                  size="small"
+                  type="text"
+                  name="lastName"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.lastName}
+                  sx={{ height: "40px" }}
+                />
+                <div className="text-red-600">
+                  {errors.lastName && touched.lastName && errors.lastName}
+                </div>
+              </FormControl>
+
+              <FormControl fullWidth>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Email Address*
+                </label>
+                <TextField
+                  size="small"
+                  type="email"
+                  name="email"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.email}
+                  sx={{ height: "40px" }}
+                />
+                <div className="text-red-600">
+                  {errors.email && touched.email && errors.email}
+                </div>
+              </FormControl>
+              <FormControl fullWidth>
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="roleId"
+                >
+                  Role*
+                </label>
+                <Select
+                  id="roleId"
+                  name="roleId"
+                  label="RoleId"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.roleId}
+                  error={errors.roleId && touched.roleId}
+                  size="small"
+                >
+                  {roleList.length > 0 &&
+                    roleList.map((role) => (
+                      <MenuItem value={role.id} key={"name" + role.id}>
+                        {role.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+                <div className="text-red-600">
+                  {errors.roleId && touched.roleId && errors.roleId}
+                </div>
+              </FormControl>
+            </div>
+            <Typography variant="h6" sx={{ marginTop: "70px" }}>
+              Login Information
+            </Typography>
+            <Divider />
+            <div className="grid grid-cols-2 gap-5 mt-5 ">
+              <FormControl fullWidth>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Password*
+                </label>
+                <TextField
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  required
+                  placeholder="password"
+                  autoComplete="off"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password}
+                />
+
+                <div className="text-red-600">
+                  {errors.password && touched.password && errors.password}
+                </div>
+                <span
+                  className="password-toggle"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </FormControl>
+              {/* <div className="password-input">
+                  <input
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    placeholder="password"
+                    autoComplete="off"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    
+                  />
+                  <span
+                    className="password-toggle"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+                </div> */}
+              <FormControl fullWidth>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Confirm Password*
+                </label>
+                <TextField
+                  type="confirmPassword"
+                  name="confirmPassword"
+                  size="small"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.confirmPassword}
+                />
+                <div className="text-red-600">
+                  {errors.confirmPassword &&
+                    touched.confirmPassword &&
+                    errors.confirmPassword}
+                </div>
+              </FormControl>
+            </div>
+
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4  rounded mt-12"
+              variant="contained"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              Submit
+            </button>
+          </form>
+        )}
+      </Formik>
+    </div>
+  );
 }
+
+export default Register;

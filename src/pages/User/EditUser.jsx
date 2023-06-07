@@ -1,58 +1,102 @@
-import { Button, FormControl, TextField, Typography } from "@mui/material";
-import { Formik } from "formik";
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { useAuthContext } from "../context/auth";
+import { toast } from "react-toastify";
 
-import userService from "../service/user.service";
-import shared from "../utils/shared";
-function UpdateProfile() {
+import {
+  Button,
+  FormControl,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { Formik } from "formik";
+import { useAuthContext } from "../../context/auth";
+import userService from "../../service/user.service";
+import shared from "../../utils/shared";
+
+function EditUser() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const authContext = useAuthContext();
-  const { user } = useAuthContext();
+  const [roles, setRoles] = useState([]);
+  const [user, setUser] = useState();
 
-  const initialValuestate = {
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    newPassword: "",
-    confirmPassword: "",
+  const initialValues = {
+    name: "",
+    price: "",
+    categoryId: 0,
+    description: "",
+    base64image: "",
   };
 
-  const [updatePassword, setUpdatePassword] = useState(false);
+  const [initialValuestate, setInitialValueState] = useState(initialValues);
 
-  const validate = Yup.object().shape({
-    firstName: Yup.string()
-      .min(2, "Too Short!")
-      .max(50, "Too Long!")
-      .required("FirstName is Required"),
-    lastName: Yup.string()
-      .min(2, "Too Short!")
-      .max(50, "Too Long!")
-      .required("LastName is Required"),
-    email: Yup.string().email("Invalid email").required("Email is Required"),
-    newPassword: Yup.string().min(5, "minimum 5 Charator is required"),
-    confirmPassword: updatePassword
-      ? Yup.string()
-          .required("Required")
-          .oneOf([Yup.ref("newPassword")], "Passwords not match")
-      : Yup.string().oneOf([Yup.ref("newPassword")], "Passwords is not match"),
+  useEffect(() => {
+    getRoles();
+  }, []);
+  useEffect(() => {
+    if (id) {
+      getUserById();
+    }
+    // eslint-disable-next-line
+  }, [id]);
+  useEffect(() => {
+    if (user && roles.length) {
+      const roleId = roles.find((role) => role.name === user?.role)?.id;
+
+      setInitialValueState({
+        id: user.id,
+        email: user.email,
+        lastName: user.lastName,
+        firstName: user.firstName,
+        roleId,
+        password: user.password,
+      });
+    }
+  }, [user, roles]);
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email address format")
+      .required("Email is required"),
+    firstName: Yup.string().required("First Name is required"),
+    lastName: Yup.string().required("Last Name is required"),
+    roleId: Yup.number().required("Role is required"),
   });
 
-  const onSubmit = async (values) => {
-    const password = values.newPassword ? values.newPassword : user.password;
-    delete values.confirmPassword;
-    delete values.newPassword;
-    const data = Object.assign(user, { ...values, password });
-    const res = await userService.updateProfile(data);
-    if (res) {
-      authContext.setUser(res);
-      toast.success(shared.messages.UPDATED_SUCCESS);
-      navigate("/");
-    }
+  const getUserById = () => {
+    userService.getById(Number(id)).then((res) => {
+      if (res) {
+        setUser(res);
+      }
+    });
+  };
+
+  const getRoles = () => {
+    userService.getAllRoles().then((res) => {
+      if (res) {
+        setRoles(res);
+      }
+    });
+  };
+  const onSubmit = (values) => {
+    const updatedValue = {
+      ...values,
+      role: roles.find((r) => r.id === values.roleId).name,
+    };
+    userService
+      .update(updatedValue)
+      .then((res) => {
+        if (res) {
+          toast.success(shared.messages.UPDATED_SUCCESS);
+          navigate("/user");
+        }
+      })
+      .catch((e) => toast.error(shared.messages.UPDATED_FAIL));
   };
 
   return (
@@ -68,14 +112,15 @@ function UpdateProfile() {
           color: "#474747",
         }}
       >
-        Update Profile
+        Edit User
       </Typography>
+
       <div className="flex items-center justify-center m-6">
         <div className="border-t-2 border-[#f14d54] w-32"></div>
       </div>
       <Formik
         initialValues={initialValuestate}
-        validationSchema={validate}
+        validationSchema={validationSchema}
         enableReinitialize={true}
         onSubmit={onSubmit}
       >
@@ -130,49 +175,36 @@ function UpdateProfile() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
-                  disabled
                   sx={{ height: "40px" }}
                 />
                 <div className="text-red-600">
                   {errors.email && touched.email && errors.email}
                 </div>
               </FormControl>
-              <FormControl fullWidth>
-                <label>Password*</label>
-                <TextField
-                  type="password"
-                  name="newPassword"
-                  size="small"
-                  onChange={(e) => {
-                    e.target.value !== ""
-                      ? setUpdatePassword(true)
-                      : setUpdatePassword(false);
-                    handleChange(e);
-                  }}
-                  onBlur={handleBlur}
-                  value={values.newPassword}
-                />
-                <div className="text-red-600">
-                  {errors.newPassword &&
-                    touched.newPassword &&
-                    errors.newPassword}
-                </div>
-              </FormControl>
-
-              <FormControl fullWidth>
-                <label>Confirm Password*</label>
-                <TextField
-                  type="confirmPassword"
-                  name="confirmPassword"
-                  size="small"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.confirmPassword}
-                />
-                <div className="text-red-600">
-                  {errors.confirmPassword && touched.confirmPassword}
-                </div>
-              </FormControl>
+              {values.id !== authContext.user.id && (
+                <FormControl
+                  fullWidth
+                  disabled={values.id === authContext.user.id}
+                >
+                  <label htmlFor="roleId">Role*</label>
+                  <Select
+                    name="roleId"
+                    label="RoleId"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={Number(values.roleId)}
+                    size="small"
+                    disabled={values.id === authContext.user.id}
+                  >
+                    {roles.length > 0 &&
+                      roles.map((role) => (
+                        <MenuItem value={role.id} key={"name" + role.id}>
+                          {role.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </FormControl>
+              )}
             </div>
             <div className="mt-16">
               <Button
@@ -194,7 +226,7 @@ function UpdateProfile() {
               <Button
                 variant="contained"
                 onClick={() => {
-                  navigate("/");
+                  navigate("/user");
                 }}
                 sx={{
                   color: "white",
@@ -216,4 +248,4 @@ function UpdateProfile() {
   );
 }
 
-export default UpdateProfile;
+export default EditUser;

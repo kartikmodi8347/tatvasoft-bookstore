@@ -1,180 +1,91 @@
-*{
-  margin: 0;
-  padding: 0;
-}
-.search {
-  height: 70px;
-  width: 103.75%;
-  background: #F4F4F4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap:20px; 
-}
-.account-title {
-  font-family: "Roboto",Helvetica,Arial,sans-serif;  
-  font-size: 32px;
-  font-weight: bold; 
-  color: #414141; /* Specify the desired text color */
-  text-align: center; /* Center align the text */
-  position: relative;
-  margin-bottom: 2rem;
-}
-.account-title::after {
-  content: ""; /* Create a pseudo-element for the underline */
-  position: absolute; /* Position the underline absolutely */
-  bottom: -5px; /* Adjust the distance from the text */
-  left: 50%; /* Position the underline in the center */
-  transform: translateX(-50%); /* Center the underline horizontally */
-  width: 50%; /* Adjust the width of the underline */
-  height: 2px; /* Adjust the thickness of the underline */
-  background-color: #f14d54; /* Set the color of the underline */
- 
-}
-
 .container {
-  max-width: 40rem;
+    background-color: #f4f4f4;
+    max-width: 60rem;
   margin: 0 auto;
   margin-top: 120px;
   padding: 2rem;
   background-color: #f4f4f4;
-  border-radius: 1rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);/* Adjust the height as needed */
-}
-
-.contact-form {
-  gap:20px; 
- 
-  
-}
-.intro-data common-heading{
-  font-size: 22px;
-   margin-bottom: 3px;
-   padding-bottom: 20px
-}
-
-.contact-form input[type="text"],
-.contact-form input[type="email"],
-.contact-form input[type="tel"],
-.contact-form input[type="password"],
-.contact-form select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-/* ^Add any additional styles for the input boxes */
-
-.contact-form select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.contact-form input[type="submit"] {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.contact-form input[type="submit"]:hover {
-  background-color: #45a049;
-}
-
-/* ^Add any additional styles for the role select box and signup button */
-
-
-/* for responsive purpose */
-@media only screen and (max-width: 767px){
-  *{
-    margin: 0;
-    padding: 0;
+  flex: 1;
+  border-radius: 8rem;
+  height: 40rem;
+  width:50rem;
   }
   
-  .container {
-    max-width: 40rem;
-    margin: 0 auto;
-    margin-top: 100px;
-    padding: 2rem;
-    background-color: #f4f4f4;
-    border-radius: 1rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);/* Adjust the height as needed */
+  .form-label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
   }
   
-  .contact-form {
-    gap:20px;
-    max-width: 50rem; 
-    max-height: 50rem;
-    margin-top: 120px;
-    
-  }
-  .intro-data common-heading{
-    font-size: 22px;
-     margin-bottom: 3px;
-     padding-bottom: 20px
+  .form-input {
+    width: 357px;
+    margin-top: 0.5rem;
   }
   
-  .contact-form input[type="text"],
-  .contact-form input[type="email"],
-  .contact-form input[type="tel"],
-  .contact-form input[type="password"],
-  .contact-form select {
+  .form-error {
+    color: #f14d54;
+    margin-top: 0.5rem;
+  }
+  
+  .submit-button {
+    color: white;
+    background-color: #f14d54;
+    &:hover {
+      background-color: #f14d54;
+    }
+    margin-top: 0rem;
+  }
+  
+  .breadcrumbs-container {
+    display: flex;
+    margin-top: 50px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .title {
+    display: flex;
+    margin-top: 50px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .divider {
+    margin-top: 20px;
+    margin-left: 160px;
+    margin-right: 160px;
+  }
+  
+  .form-description {
+    margin-top: 20px;
+    margin-left: 160px;
+  }
+  
+  .form-section {
+    margin-top: 70px;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    margin-top: 5px;
+  }
+  
+  .form-control {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
   }
   
-  /* ^Add any additional styles for the input boxes */
-  
-  .contact-form select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+  .password-section {
+    margin-top: 70px;
   }
   
-  .contact-form input[type="submit"] {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .contact-form input[type="submit"]:hover {
-    background-color: #45a049;
-  }
-  
-  /* ^Add any additional styles for the role select box and signup button */
-  
-  .account-title {
-    font-family: "Roboto",Helvetica,Arial,sans-serif;  
-    font-size: 32px;
-    font-weight: bold; 
-    color: #414141; /* Specify the desired text color */
-    text-align: center; /* Center align the text */
-    position: relative;
-  }
+  .submit-button {
+    color: white;
+    background-color: #f14d54;
+    &:hover {
+      background-color: #f14d54;
+    }
+    margin-top: 60px;
   }
   

@@ -1,71 +1,138 @@
-import React from "react";
-import "../styles/Header.css";
-//import logo from '../assets/images/logo.jpg'
-//import { Button } from "@mui/material";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { FaUserEdit } from "react-icons/fa";
-import { RiMenuLine } from "react-icons/ri";
+import { Button, Divider, IconButton } from "@mui/material";
+import React, { useMemo } from "react";
+import logo from "../assets/logo.jpg";
+import { HiShoppingCart } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
+import { Home } from "@mui/icons-material";
+import shared from "../utils/shared";
 import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
-import SearchBox from "./SearchBox";
+import { useAuthContext } from "../context/auth";
+import { useCartContext } from "../context/cart";
+const Header = () => {
+  const navigate = useNavigate();
+  const authContext = useAuthContext();
+  const cartContext = useCartContext();
+  const logOut = () => {
+    authContext.signOut();
+  };
 
-function Header() {
+  const items = useMemo(() => {
+    return shared.NavigationItems.filter(
+      (item) =>
+        !item.access.length || item.access.includes(authContext.user.roleId)
+    );
+  }, [authContext.user]);
+
   return (
-    <div className="header">
-      <img
-        src="https://bookstore-sooty.vercel.app/static/media/site-logo.005b78aa01d0b4eadda3fa91c02202c5.svg"
-        alt=""
-      />
+    <>
+      <div className="flex justify-between items-center bg-white ">
+        <img src={logo} alt="TatvaSoft_Logo" className="h-24 ml-40 w-44" />
+        <div className="mr-40  space-x-1 flex">
+        <Link to="/">
+        <IconButton color="error">
+    <Home />
+  </IconButton>
+  </Link>
+          {!authContext.user.id && (
+            <>
+              <Button
+                variant="text"
+                sx={{
+                  color: "#f14d54",
+                  textTransform: "capitalize",
+                }}
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                Login
+              </Button>
+              <Divider
+                orientation="vertical"
+                variant="middle"
+                flexItem
+                sx={{ backgroundColor: "#f14d54" }}
+              />
+              <Button
+                variant="text"
+                sx={{ color: "#f14d54", textTransform: "capitalize" }}
+                onClick={() => {
+                  navigate("/register");
+                }}
+              >
+                Register
+              </Button>
+             
 
-      <div className="button">
-        {window.localStorage.getItem("loggedIn", true) ? null : (
-          <Link to="/register">
-            <Button variant="text">Register</Button>
-          </Link>
-        )}
-        {window.localStorage.getItem("loggedIn", true) ? (
-          <Link to="/cartitem">
-            <Button variant="contained" endIcon={<AiOutlineShoppingCart />}>
-              Cart
-            </Button>
-          </Link>
-        ) : null}
-        {window.localStorage.getItem("loggedIn", true) ? (
-          <Link to="/editbook">
-            <Button variant="contained" endIcon={<RiMenuLine />}>
-              Book
-            </Button>
-          </Link>
-        ) : null}
-        {window.localStorage.getItem("loggedIn", true) ? (
-          <Link to="/updateprofile">
-            <Button variant="contained" endIcon={<FaUserEdit />}>
-              Update Profile
-            </Button>
-          </Link>
-        ) : null}
-        {window.localStorage.getItem("loggedIn", true) ? (
+            </>
+            
+          )}
+          {items.map((item, index) => (
+            <>
+              <Button
+                key={index}
+                variant="text"
+                
+                sx={{
+                  color: "#f14d54",
+                  textTransform: "capitalize",
+                }}
+                onClick={() => {
+                  navigate(item.route);
+                }}
+              >
+                {item.name}
+              </Button>
+             
+            </>
+          ))}
+
           <Button
-            variant="text"
+            variant="outlined"
+            sx={{
+              color: "#f14d54",
+              borderColor: "#f14d54",
+              textTransform: "capitalize",
+              fontWeight: "bold",
+            }}
+            startIcon={<HiShoppingCart />}
             onClick={() => {
-              window.localStorage.clear();
-              window.location.href = "/";
+              navigate("/cart-page");
             }}
           >
-            logout
+            {cartContext.cartData.length}
+            <span
+              style={{
+                color: "black",
+                marginLeft: "4px",
+                fontWeight: "normal",
+              }}
+            >
+              cart
+            </span>
           </Button>
-        ) : (
-          <Link to="/login">
-            <Button variant="text" color="primary">
-              Login
+          {!!authContext.user.id ? (
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "#f14d54",
+                "&:hover": {
+                  backgroundColor: "#f14d54", // Change the hover background color
+                },
+                textTransform: "capitalize",
+              }}
+              onClick={() => {
+                logOut();
+              }}
+            >
+              LogOut
             </Button>
-          </Link>
-        )}
+          ) : null}
+         
+        </div>
       </div>
-      <div className="search" >
-        <SearchBox />
-      </div>
-    </div>
+    </>
   );
-}
+};
+
 export default Header;
