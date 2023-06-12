@@ -3,10 +3,13 @@ import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuthContext } from "../context/auth";
-import { useCartContext } from "../context/cart";
+// import { useAuthContext } from "../context/auth";
+// import { useCartContext } from "../context/cart";
 import bookService from "../service/book.service";
 import shared from "../utils/shared";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCartData } from "../State/Slice/cartSlice";
+
 
 export default function Searchbar() {
   const [query, setQuery] = useState("");
@@ -21,21 +24,24 @@ export default function Searchbar() {
     setOpenSearchResult(true);
   };
   const navigate = useNavigate();
-  const authContext = useAuthContext();
-  const cartContext = useCartContext();
+
+  const authData = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+
   const addToCart = (book) => {
-    if (!authContext.user.id) {
+    if (!authData.id) {
       navigate("/login");
       toast.error("Please login before adding books to cart");
     } else {
       shared
-        .addToCart(book, authContext.user.id)
+        .addToCart(book, authData.id)
         .then((res) => {
           if (res.error) {
             toast.error(res.error);
           } else {
             toast.success("Item added in cart");
-            cartContext.updateCart();
+            // cartContext.updateCart();
+            dispatch(fetchCartData(authData.id));
           }
         })
         .catch((err) => {

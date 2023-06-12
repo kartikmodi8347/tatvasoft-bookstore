@@ -5,19 +5,24 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { useAuthContext } from "../context/auth";
+// import { useAuthContext } from "../context/auth";
+
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../State/Slice/authSlice";
 
 import userService from "../service/user.service";
 import shared from "../utils/shared";
 function UpdateProfile() {
   const navigate = useNavigate();
-  const authContext = useAuthContext();
-  const { user } = useAuthContext();
+  // const authContext = useAuthContext();
+  // const { user } = useAuthContext();
+  const dispatch = useDispatch();
 
+  const authData = useSelector((state) => state.auth.user);
   const initialValuestate = {
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
+    firstName: authData.firstName,
+    lastName: authData.lastName,
+    email: authData.email,
     newPassword: "",
     confirmPassword: "",
   };
@@ -43,13 +48,19 @@ function UpdateProfile() {
   });
 
   const onSubmit = async (values) => {
-    const password = values.newPassword ? values.newPassword : user.password;
+    const password = values.newPassword
+      ? values.newPassword
+      : authData.password;
     delete values.confirmPassword;
     delete values.newPassword;
-    const data = Object.assign(user, { ...values, password });
-    const res = await userService.updateProfile(data);
+    const updatedData = {
+      ...authData,
+      ...values,
+      password,
+    };
+    const res = await userService.updateProfile(updatedData);
     if (res) {
-      authContext.setUser(res);
+      dispatch(setUser(res));
       toast.success(shared.messages.UPDATED_SUCCESS);
       navigate("/");
     }

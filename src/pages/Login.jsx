@@ -4,8 +4,8 @@ import {
   FormControl,
   Typography,
 } from "@mui/material";
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { TextField } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -13,22 +13,43 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import authService from "../service/auth.service";
-import { toast, ToastContainer } from "react-toastify";
-import { useAuthContext } from "../context/auth";
+import { toast } from "react-toastify";
+
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../State/Slice/authSlice";
+import shared from "../utils/shared";
 
 function Login() {
   const navigate = useNavigate();
-  const authContext = useAuthContext();
+  const { pathname } = useLocation();
+
+  const authData = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const str = JSON.parse(localStorage.getItem("user"));
+    if (str?.id) {
+      dispatch(setUser(str));
+      navigate("/");
+    }
+    const access = shared.hasAccess(pathname, authData);
+    if (!access) {
+      toast.warning("sorry, you are not authorized to access this page");
+      navigate("/");
+      return;
+    }
+    // eslint-disable-next-line
+  }, []);
 
   const initialValues = {
     email: "",
     password: "",
   };
   const validate = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Email is required"),
+    email: Yup.string().email("Invalid email").required("Email is Required"),
     password: Yup.string()
-      .min(5, "Password must be at least 5 characters")
-      .required("Password is required"),
+      .min(5, "Password must be 5 charaters at minimum")
+      .required("Password must Required"),
   });
 
   const onSubmit = (values) => {
@@ -37,9 +58,10 @@ function Login() {
       .then((res) => {
         delete res._id;
         delete res.__v;
-        authContext.setUser(res);
+        // authContext.setUser(res);
+        dispatch(setUser(res));
         navigate("/");
-        toast.success("Successfully logged in");
+        toast.success("successfully logged in");
       })
       .catch((err) => {
         console.log(err);
@@ -56,8 +78,7 @@ function Login() {
   ];
 
   return (
-    <div className="">
-      <ToastContainer />
+    <div className="flex-1">
 
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
@@ -121,6 +142,7 @@ function Login() {
               handleChange,
               handleBlur,
               handleSubmit,
+              isSubmitting,
             }) => (
               <form onSubmit={handleSubmit} className="">
                 <FormControl fullWidth className="mt-5">

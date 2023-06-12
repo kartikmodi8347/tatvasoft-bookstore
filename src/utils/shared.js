@@ -1,10 +1,3 @@
-// This component exports a collection of utility functions, constants, and data used in the application.
-// The `addToCart` function takes a book object and a user ID, and it uses the `cartService` module to add the item to the user's cart, returning a success message if successful.
-// The `messages` object contains various string messages used in the application, such as success or error messages for different operations.
-// The `LocalStorageKeys` object provides a mapping for keys used in the local storage, specifically for storing user-related data.
-// The `NavigationItems` array defines the navigation menu items in the application, including their names, routes, and access permissions based on user roles. 
-// The `hasAccess` function is used to check if a user has access to a particular route based on their role and the current pathname.
-
 import cartService from "../service/cart.service";
 import { Role } from "./enum";
 
@@ -19,7 +12,9 @@ const addToCart = async (book, id) => {
       return { error: false, message: "Item added in cart" };
     })
     .catch((e) => {
-     
+      // if (e.status === 500) {
+      //   return { error: true, message: "Item already in the cart" };
+      // } else return { error: true, message: "something went wrong" };
     });
 };
 

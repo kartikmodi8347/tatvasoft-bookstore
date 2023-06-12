@@ -1,11 +1,3 @@
-// This component exports an instance of Axios, a popular HTTP client library for JavaScript. 
-// The `request` object is created with specific configurations such as a base URL, timeout, and response type. 
-// It also includes request and response interceptors to handle requests and responses globally.
-// The request interceptor adds headers and handles loader display based on the request. 
-// The `showLoader()` and `hideLoader()` functions add and remove a CSS class to show and hide a loader element on the webpage.
-// The `removeRequest()` function removes completed requests from the tracking list and updates the loader display accordingly. 
-// It also handles any conflicting requests that need to be excluded from the tracking list. The module exports the `request` object for use in making API requests.
-
 import axios from "axios";
 import { toast } from "react-toastify";
 
