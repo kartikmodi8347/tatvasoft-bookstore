@@ -14,14 +14,15 @@ import {
   Typography,
 } from "@mui/material";
 import { Formik } from "formik";
-import { useAuthContext } from "../../context/auth";
+
 import userService from "../../service/user.service";
 import shared from "../../utils/shared";
-
+import { useSelector } from "react-redux";
 function EditUser() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const authContext = useAuthContext();
+
+  const authData = useSelector((state) => state.auth.user);
   const [roles, setRoles] = useState([]);
   const [user, setUser] = useState();
 
@@ -181,11 +182,8 @@ function EditUser() {
                   {errors.email && touched.email && errors.email}
                 </div>
               </FormControl>
-              {values.id !== authContext.user.id && (
-                <FormControl
-                  fullWidth
-                  disabled={values.id === authContext.user.id}
-                >
+              {values.id !== authData.id && (
+                <FormControl fullWidth disabled={values.id === authData.id}>
                   <label htmlFor="roleId">Role*</label>
                   <Select
                     name="roleId"
@@ -194,7 +192,7 @@ function EditUser() {
                     onBlur={handleBlur}
                     value={Number(values.roleId)}
                     size="small"
-                    disabled={values.id === authContext.user.id}
+                    disabled={values.id === authData.id}
                   >
                     {roles.length > 0 &&
                       roles.map((role) => (

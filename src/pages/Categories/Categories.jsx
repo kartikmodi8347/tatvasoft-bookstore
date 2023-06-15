@@ -15,14 +15,14 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ConfirmationDialog from "../../Components/ConfirmationDialog";
 import { defaultFilter, RecordsPerPage } from "../../Constant/constant";
-import { useAuthContext } from "../../context/auth";
+
 import categoryService from "../../service/category.service";
 import shared from "../../utils/shared";
-
+import { useSelector } from "react-redux";
 function Categories() {
   const navigate = useNavigate();
-  const authContext = useAuthContext();
 
+  const authData = useSelector((state) => state.auth.user);
   const [filters, setFilters] = useState(defaultFilter);
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(0);
@@ -160,7 +160,7 @@ function Categories() {
                     >
                       Edit
                     </Button>
-                    {row.id !== authContext.user.id && (
+                    {row.id !== authData.id && (
                       <Button
                         variant="outlined"
                         disableElevation

@@ -15,13 +15,15 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ConfirmationDialog from "../../Components/ConfirmationDialog";
 import { defaultFilter, RecordsPerPage } from "../../Constant/constant";
-import { useAuthContext } from "../../context/auth";
+
 import userService from "../../service/user.service";
 import shared from "../../utils/shared";
+import { useSelector } from "react-redux";
 
 function User() {
   const navigate = useNavigate();
-  const authContext = useAuthContext();
+
+  const authData = useSelector((state) => state.auth.user);
 
   const [filters, setFilters] = useState(defaultFilter);
   const [open, setOpen] = useState(false);
@@ -152,7 +154,7 @@ function User() {
                     >
                       Edit
                     </Button>
-                    {row.id !== authContext.user.id && (
+                    {row.id !== authData.id && (
                       <Button
                         variant="outlined"
                         disableElevation
